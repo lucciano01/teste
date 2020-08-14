@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             template="template.xhtml"
+             xmlns:p="http://primefaces.org/ui">
+
+
+
+    <p:panel id="panelBody" styleClass="body-principal">
+
+
+
+        <h:form id="formListUSuarios" prependId="false" rendered="#{!userView.renderFormControl}">
+
+           
+
+           
+            <p:commandButton value="novo usuário"
+                             icon="ui-icon-plus"
+                             actionListener="#{userView.setRenderFormControl(true)}"
+                             process="@this"
+                             update="panelBody"/>
+
+            <h3 class="display-6 mt-3 mb-2">Filtro</h3>
+
+            <p:panel id="basic" header="Filtro"  style="margin-bottom:20px">
+                <h:panelGrid columns="2" cellpadding="10">
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel for="console" value="Consultar por:" />
+                        <p:selectOneRadio id="console" value="#{userView.tipoConsulta}" unselectable="true">
+                            <f:selectItem itemLabel="Todos" itemValue="Todos" />
+                            <f:selectItem itemLabel="Nome" itemValue="User.USER_BY_NAME" />
+                            <f:selectItem itemLabel="CPF" itemValue="User.USER_BY_CPF" />
+                            <f:selectItem itemLabel="Email" itemValue="User.USER_BY_EMAIL" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2">
+                        <p:inputText value="#{userView.valorConsulta}" style="width: 350px;"/>
+                        <p:commandButton value="consultar"
+                                         icon="ui-icon-circle-zoomin"
+                                         actionListener="#{userView.findByQuery()}"
+                                         process="@form"
+                                         style="margin-left: 10px;"
+                                         update="dataTableUser"
+                                         />
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </p:panel>
+
+            <h3 class="display-6 mt-3 mb-2">Lista de Usuários</h3>
+
+            <p:dataTable value="#{userView.users}"
+                         id="dataTableUser"
+                         emptyMessage="Nenhum usuário encontrado"
+                         var="user"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord} de {totalRecords} registros"
+                         rowsPerPageTemplate="5,10,15"
+                         >
+
+                <p:column  headerText="Nome">
+                    #{user.name}
+                </p:column>
+                <p:column headerText="CPF">
+                    #{user.cpf}
+                </p:column>
+                <p:column headerText="Email">
+                    #{user.email}
+                </p:column>
+                <p:column headerText="Data de Nascimento">
+                    <h:outputText value="#{user.dateOfBirth}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Nacionalidade">
+                    #{user.citizenShip}
+                </p:column>
+                <p:column headerText="Naturalidade">
+                    #{user.placeOfBirth}
+                </p:column>
+                <p:column headerText="Ação" width="230px;" >
+                    <p:commandButton value="editar"
+                                     icon="ui-icon-document-b"
+                                     actionListener="#{userView.preUpdate(user)}"
+                                     process="@form"
+                                     update="panelBody"
+                                     />
+
+                    <p:commandButton styleClass="btn-excluir" 
+                                     process="@form"
+                                     icon=" ui-icon-trash"
+                                     value="excluir"
+                                     update="dialogDelete"
+                                     oncomplete="PF('dialogDelete').show()"
+                                     actionListener="#{userView.preDestroy(user)}">
+
+                    </p:commandButton>
+                </p:column>
+                            
+            </p:dataTable>
+             <p:confirmDialog global="true" 
+                             id="dialogDelete"
+                             closable="true" 
+                             closeOnEscape="true"
+                             widgetVar="dialogDelete"
+                             message="Confirma a exclusão do usuário #{userView.user.name}?" 
+                             header="Mensagem">
+                <p:commandButton value="Sim" 
+                                 actionListener="#{userView.remove()}"
+                                 process="@form"
+                                 update="@form"
+                                 />
+                <p:commandButton value="Não" process="@this" onclick="PF('dialogDelete').hide()" />
+            </p:confirmDialog> 
+           
+
+
+        </h:form> 
+
+
+        <h:form id="formCadastro" prependId="false" rendered="#{userView.renderFormControl}">
+            
+             <p:growl id="growl" showDetail="false" sticky="true" />  
+
+            <p:commandButton value="ver todos"
+                             icon="ui-icon-circle-zoomin"
+                             actionListener="#{userView.setRenderFormControl(false)}"
+                             process="@this"
+                             styleClass="btn-vertodos"
+                             update="panelBody"
+                             /> 
+
+
+            <h3><p:outputLabel styleClass="font-label-cadastro" value= "Cadastro de Usuários"/></h3>
+
+
+            <h:panelGrid columns="2" cellpadding="15" cellspacing="5">
+
+                <p:outputLabel value="Nome" for="inputName"/>
+                <p:inputText required="true"
+                             requiredMessage="O campo nome é obrigatório"
+                             id="inputName"
+                             style="width: 500px;"
+                             value="#{userView.user.name}"/>
+
+                <p:outputLabel value="Sexo" />
+                <p:selectOneMenu value="#{userView.user.gender}">
+                    <f:selectItem  itemLabel="Selecione" itemValue="" /> 
+                    <f:selectItem  itemLabel="Masculino" itemValue="M"/>
+                    <f:selectItem  itemLabel="Feminino" itemValue="F"/>
+                </p:selectOneMenu>  
+
+                <p:outputLabel value="Email" for="inputEmail"/>
+                <p:inputText validatorMessage="Email inválido"
+                             id="inputEmail"
+                             style="width: 300px;"
+                             requiredMessage="Field required"
+                             value="#{userView.user.email}">
+                    <f:validateRegex
+                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                </p:inputText>
+
+                <p:outputLabel value="CPF" for="inputCpf"/>
+                <p:inputMask required="true"
+                             requiredMessage="O campo CPF é obrigatório"
+                             mask="999.999.999-99"
+                             id="inputCpf"
+                             value="#{userView.user.cpf}">
+                    <p:ajax event="blur" 
+                            listener="#{userView.validaCPF()}"
+                            process="@this"/>
+                </p:inputMask>
+
+                <p:outputLabel value="Data de Nascimento" for="inputDateOfBith"/>
+                <p:inputMask required="true"
+                             requiredMessage="O campo data de nascimento é obrigatório"
+                             mask="99/99/9999"
+                             id="inputDateOfBith"
+                             value="#{userView.user.dateOfBirth}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    <p:watermark for="inputDateOfBith" value="dd/MM/yyyy"/>
+                </p:inputMask>
+
+
+                <p:outputLabel value="Nacionalidade" for="inputCitizenship"/>
+                <p:inputText id="inputCitizenship"
+                             style="width: 300px;"
+                             value="#{userView.user.citizenShip}"/>
+
+                <p:outputLabel value="Naturalidade" for="inputPlaceOfBirth"/>
+                <p:inputText id="inputPlaceOfBirth"
+                             style="width: 300px;"
+                             value="#{userView.user.placeOfBirth}"/>
+
+            </h:panelGrid>
+
+            <p:commandButton value="salvar"
+                             process="@form"
+                             icon="ui-icon-disk"
+                             update="@form"
+                             actionListener="#{userView.save()}"/>
+
+            <p:commandButton value="cancelar"
+                             icon="ui-icon-closethick"
+                             styleClass="btn-cancelar"
+                             process="@this"
+                             update="@form"
+                             resetValues="true"/>
+
+
+
+        </h:form> 
+
+    </p:panel>          
+
+</ui:decorate>
+

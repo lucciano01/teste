@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge"/>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+
+
+        <title>Teste</title>
+    </h:head>
+    <h:body>
+        <!--   <div class="container">
+               <div class="jumbotron jumbotron-fluid mb-0" style="color: darkviolet; border-radius: 2px;">
+                   <div class="container">
+                       <h1 class="display-4">Sistema</h1>
+                       <p class="lead">Gerencie seu negócio através da nossa plataforma</p>
+                   </div>
+               </div>-->
+        <div class="container" >
+            <h:graphicImage library="images" style="width: 100% !important" name="fedex-tagline-banner.jpg"/>
+            <h:form>  
+
+                <p:menubar styleClass="menu-principal">
+                    <p:menuitem value="Home" styleClass="font-color-menu" url="#{request.contextPath}/templates/template.xhtml" />
+
+                    <p:submenu label="Usuários" style="color: darkblue !important;
+                               font-weight: bolder !important;
+                               font-size:  20px !important;" styleClass="font-color-menu">
+                        <p:menuitem styleClass="font-color-menu" value="Cadastrar" url="#{request.contextPath}/templates/cadastro.xhtml" />
+                        <p:menuitem styleClass="font-color-menu" value="Ver todos" url="#{request.contextPath}/templates/userList.xhtml" />
+                    </p:submenu>
+
+
+                    <p:menuitem value="Sobre nós" styleClass="font-color-menu" url="https://www.fedex.com/pt-br/home.html" />
+
+                    <p:menuitem value="Contato" styleClass="font-color-menu" url="https://www.fedex.com/pt-br/home.html" />
+
+                    <f:facet name="options">
+                        <p:commandButton icon="ui-icon-power" type="button" value="sair" styleClass="btn-sair"/>
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+
+
+
+            <ui:insert>  
+                <section id="gallery">
+                    <div class="container mt-lg-5">
+                        <div class="row">
+                            <div class="col-lg-4 mb-4">
+                                <div class="card">
+                                    <img src="./resources/images/terrestre.jpg" alt="" class="card-img-top"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title">FedEx Terrestre</h5>
+                                        <p class="card-text">Suas encomendas no tempo certo!</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="card">
+                                    <img src="./resources/images/aereo.jpg" alt="" class="card-img-top"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title">FedEx Aerocargo</h5>
+                                        <p class="card-text">Rapidez para encomendas urgentes!</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="card">
+                                    <img src="./resources/images/maritimo.jpg" alt="" class="card-img-top"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title">FedEx Marítimo</h5>
+                                        <p class="card-text">Grandes volumes de cargas</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </ui:insert>
+
+
+            <p:ajaxStatus onstart="PF('statusDialog').show();"
+                          onsuccess="PF('statusDialog').hide();"/>
+
+
+            <p:dialog widgetVar="statusDialog"
+                      draggable="false"
+                      closable="false"
+                      resizable="false"
+                      showHeader="false">
+                <p:graphicImage library="images" name="Rolling-1s-44px.gif"/>         
+            </p:dialog>
+
+        </div>
+
+    </h:body>
+</html>
+
