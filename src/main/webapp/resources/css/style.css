@@ -75,3 +75,12 @@
 .body-principal{
     border: none !important;
 }
+
+.panel-endereco{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.input-gender{
+    margin-left: 180px;
+}

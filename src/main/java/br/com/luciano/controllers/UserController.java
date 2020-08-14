@@ -11,6 +11,7 @@ import br.com.luciano.enums.Gender;
 import br.com.luciano.services.CpfService;
 import br.com.luciano.services.UserService;
 import br.com.luciano.utils.FacesMessageUtil;
+import br.com.luciano.ws.CepClient;
 import java.io.Serializable;
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class UserController implements Serializable {
 
     @Inject
     private UserService userService;
+    
+    @Inject
+    private CepClient cepClient;
 
     private boolean renderFormControl, controlConsulta;
 
@@ -240,6 +244,10 @@ public class UserController implements Serializable {
         
         }
         return result;
+    }
+    
+    public void buscaEndereco() {
+        user.setEndereco(cepClient.buscaEnderecoPorCEP(user.getEndereco().getCep()));
     }
     
     public String removeChar(String value){

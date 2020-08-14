@@ -15,9 +15,9 @@
 
         <h:form id="formListUSuarios" prependId="false" rendered="#{!userView.renderFormControl}">
 
-           
 
-           
+
+
             <p:commandButton value="novo usuário"
                              icon="ui-icon-plus"
                              actionListener="#{userView.setRenderFormControl(true)}"
@@ -78,11 +78,11 @@
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Nacionalidade">
-                    #{user.citizenShip}
+                <p:column headerText="Cidade">
+                    #{user.endereco.localidade}
                 </p:column>
-                <p:column headerText="Naturalidade">
-                    #{user.placeOfBirth}
+                <p:column headerText="UF">
+                    #{user.endereco.uf}
                 </p:column>
                 <p:column headerText="Ação" width="230px;" >
                     <p:commandButton value="editar"
@@ -102,9 +102,9 @@
 
                     </p:commandButton>
                 </p:column>
-                            
+
             </p:dataTable>
-             <p:confirmDialog global="true" 
+            <p:confirmDialog global="true" 
                              id="dialogDelete"
                              closable="true" 
                              closeOnEscape="true"
@@ -118,15 +118,15 @@
                                  />
                 <p:commandButton value="Não" process="@this" onclick="PF('dialogDelete').hide()" />
             </p:confirmDialog> 
-           
+
 
 
         </h:form> 
 
 
         <h:form id="formCadastro" prependId="false" rendered="#{userView.renderFormControl}">
-            
-             <p:growl id="growl" showDetail="false" sticky="true" />  
+
+            <p:growl id="growl" showDetail="false" sticky="true" />  
 
             <p:commandButton value="ver todos"
                              icon="ui-icon-circle-zoomin"
@@ -140,65 +140,95 @@
             <h3><p:outputLabel styleClass="font-label-cadastro" value= "Cadastro de Usuários"/></h3>
 
 
-            <h:panelGrid columns="2" cellpadding="15" cellspacing="5">
+            <p:panel header="Dados Pessoais">
+                <h:panelGrid columns="4" cellpadding="6" cellspacing="5">
+                    <p:outputLabel value="Nome" for="inputName"/>
+                    <p:inputText required="true"
+                                 requiredMessage="O campo nome é obrigatório"
+                                 id="inputName"
+                                 style="width: 500px;"
+                                 value="#{userView.user.name}"/>
 
-                <p:outputLabel value="Nome" for="inputName"/>
-                <p:inputText required="true"
-                             requiredMessage="O campo nome é obrigatório"
-                             id="inputName"
-                             style="width: 500px;"
-                             value="#{userView.user.name}"/>
+                    <p:outputLabel value="Sexo" styleClass="input-gender" />
+                    <p:selectOneMenu value="#{userView.user.gender}">
+                        <f:selectItem  itemLabel="Selecione" itemValue="" /> 
+                        <f:selectItem  itemLabel="Masculino" itemValue="M"/>
+                        <f:selectItem  itemLabel="Feminino" itemValue="F"/>
+                    </p:selectOneMenu>  
+                </h:panelGrid> 
 
-                <p:outputLabel value="Sexo" />
-                <p:selectOneMenu value="#{userView.user.gender}">
-                    <f:selectItem  itemLabel="Selecione" itemValue="" /> 
-                    <f:selectItem  itemLabel="Masculino" itemValue="M"/>
-                    <f:selectItem  itemLabel="Feminino" itemValue="F"/>
-                </p:selectOneMenu>  
+                <h:panelGrid columns="6" cellpadding="9" cellspacing="5">
+                    <p:outputLabel value="CPF" for="inputCpf"/>
+                    <p:inputMask required="true"
+                                 requiredMessage="O campo CPF é obrigatório"
+                                 mask="999.999.999-99"
+                                 id="inputCpf"
+                                 value="#{userView.user.cpf}">
+                        <p:ajax event="blur" 
+                                listener="#{userView.validaCPF()}"
+                                process="@this"/>
+                    </p:inputMask>
 
-                <p:outputLabel value="Email" for="inputEmail"/>
-                <p:inputText validatorMessage="Email inválido"
-                             id="inputEmail"
-                             style="width: 300px;"
-                             requiredMessage="Field required"
-                             value="#{userView.user.email}">
-                    <f:validateRegex
-                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                </p:inputText>
+                    <p:outputLabel value="Email" for="inputEmail"/>
+                    <p:inputText validatorMessage="Email inválido"
+                                 id="inputEmail"
+                                 style="width: 300px;"
+                                 value="#{userView.user.email}">
+                        <f:validateRegex
+                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                    </p:inputText>
 
-                <p:outputLabel value="CPF" for="inputCpf"/>
-                <p:inputMask required="true"
-                             requiredMessage="O campo CPF é obrigatório"
-                             mask="999.999.999-99"
-                             id="inputCpf"
-                             value="#{userView.user.cpf}">
-                    <p:ajax event="blur" 
-                            listener="#{userView.validaCPF()}"
-                            process="@this"/>
-                </p:inputMask>
+                    <p:outputLabel value="Data de Nascimento" for="inputDateOfBith"/>
+                    <p:inputMask required="true"
+                                 requiredMessage="O campo data de nascimento é obrigatório"
+                                 mask="99/99/9999"
+                                 id="inputDateOfBith"
+                                 value="#{userView.user.dateOfBirth}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        <p:watermark for="inputDateOfBith" value="dd/MM/yyyy"/>
+                    </p:inputMask>
 
-                <p:outputLabel value="Data de Nascimento" for="inputDateOfBith"/>
-                <p:inputMask required="true"
-                             requiredMessage="O campo data de nascimento é obrigatório"
-                             mask="99/99/9999"
-                             id="inputDateOfBith"
-                             value="#{userView.user.dateOfBirth}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    <p:watermark for="inputDateOfBith" value="dd/MM/yyyy"/>
-                </p:inputMask>
+                </h:panelGrid>    
+                <h:panelGrid columns="2" cellpadding="10" cellspacing="15">
+                    <p:outputLabel value="Nacionalidade" for="inputCitizenship"/>
+                    <p:inputText id="inputCitizenship"
+                                 style="width: 300px;"
+                                 value="#{userView.user.citizenShip}"/>
 
+                    <p:outputLabel value="Naturalidade" for="inputPlaceOfBirth"/>
+                    <p:inputText id="inputPlaceOfBirth"
+                                 style="width: 300px;"
+                                 value="#{userView.user.placeOfBirth}"/>
+                </h:panelGrid>   
 
-                <p:outputLabel value="Nacionalidade" for="inputCitizenship"/>
-                <p:inputText id="inputCitizenship"
-                             style="width: 300px;"
-                             value="#{userView.user.citizenShip}"/>
+            </p:panel>
 
-                <p:outputLabel value="Naturalidade" for="inputPlaceOfBirth"/>
-                <p:inputText id="inputPlaceOfBirth"
-                             style="width: 300px;"
-                             value="#{userView.user.placeOfBirth}"/>
+            <p:panel id="panelEndereco" header="Endereço" styleClass="panel-endereco">
+                <h:panelGrid columns="2" cellspacing="2"  cellpadding="10">
+                    <p:outputLabel value="CEP" for="cep"/>
+                    <p:inputMask mask="99.999-999" requiredMessage="O CEP é obrigatório" required="true" value="#{userView.user.endereco.cep}" id="cep">
+                        <p:ajax event="blur" 
+                                listener="#{userView.buscaEndereco()}"
+                                process="cep"
+                                update=":panelEndereco"/>
+                    </p:inputMask>
+                </h:panelGrid>
+                <h:panelGrid columns="4" cellpadding="11">
+                    <p:outputLabel value="Rua" for="rua" />
+                    <p:inputText value="#{userView.user.endereco.logradouro}" id="rua" style="width: 300px;"/>
+                    <p:outputLabel value="Número" for="numero" />
+                    <p:inputText value="#{userView.user.endereco.numero}" id="numero" style="width: 50px;" />
+                </h:panelGrid>
 
-            </h:panelGrid>
+                <h:panelGrid columns="6" cellpadding="5" cellspacing="5">
+                    <p:outputLabel value="Bairro" for="bairro"/>
+                    <p:inputText value="#{userView.user.endereco.bairro}" id="bairro"/>
+                    <p:outputLabel value="Cidade" for="localidade"/>
+                    <p:inputText value="#{userView.user.endereco.localidade}" id="localidade" style="width: 250px;"/>
+                    <p:outputLabel value="Estado" for="estado"/>
+                    <p:inputText value="#{userView.user.endereco.uf}" id="estado" style="width: 50px;" />
+                </h:panelGrid>
+            </p:panel>
 
             <p:commandButton value="salvar"
                              process="@form"

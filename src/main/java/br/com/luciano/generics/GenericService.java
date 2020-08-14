@@ -6,13 +6,10 @@
 package br.com.luciano.generics;
 
 
-import br.com.luciano.domain.User;
 import static br.com.luciano.generics.PersistenceFactory.em;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.persistence.EntityTransaction;
 import javax.persistence.NoResultException;
@@ -35,7 +32,7 @@ public class GenericService<T> implements Serializable {
         tx.begin();
         persistence.getEm().persist(entity);
         tx.commit();
-       // persistence.getEm().close();
+      
     }
 
     public void update(T entity) {

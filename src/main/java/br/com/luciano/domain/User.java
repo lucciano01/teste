@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -63,6 +64,9 @@ public class User implements Serializable {
     private String citizenShip;
     
     private String placeOfBirth;
+    
+    @Embedded
+    private Endereco endereco;
 
     public User() {
     }
@@ -71,9 +75,6 @@ public class User implements Serializable {
         this.email = email;
     }
     
-    
-
-
     public Long getId() {
         return id;
     }
@@ -137,6 +138,19 @@ public class User implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public Endereco getEndereco() {
+      if(endereco == null)  {
+          endereco = new Endereco();
+      }
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+    
+    
     
     
     
