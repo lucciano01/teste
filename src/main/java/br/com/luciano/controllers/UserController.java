@@ -6,7 +6,7 @@
 package br.com.luciano.controllers;
 
 
-import br.com.luciano.domain.User;
+import br.com.luciano.domain.Usuario;
 import br.com.luciano.enums.Gender;
 import br.com.luciano.services.CpfService;
 import br.com.luciano.services.UserService;
@@ -42,22 +42,22 @@ public class UserController implements Serializable {
 
     private String tipoConsulta, valorConsulta;
 
-    private User user;
+    private Usuario user;
 
-    private List<User> users;
+    private List<Usuario> users;
 
     private List<SelectItem> selectItensGender;
 
     private Gender[] genderValues;
 
-    public User getUser() {
+    public Usuario getUser() {
         if (user == null) {
-            user = new User();
+            user = new Usuario();
         }
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Usuario user) {
         this.user = user;
     }
 
@@ -82,7 +82,7 @@ public class UserController implements Serializable {
         }
     }
 
-    public void atualizar(User user) throws Exception {
+    public void atualizar(Usuario user) throws Exception {
         if (cpfExits()) {
             FacesMessageUtil.dynamicAlert("Atualização não efetuada! O CPF informado já está cadastrado no sistema");
         } else {
@@ -120,7 +120,7 @@ public class UserController implements Serializable {
         this.genderValues = genderValues;
     }
 
-    public List<User> getUsers() {
+    public List<Usuario> getUsers() {
         if (!controlConsulta) {
             users = new ArrayList();
             users = userService.getAll();
@@ -129,7 +129,7 @@ public class UserController implements Serializable {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<Usuario> users) {
         this.users = users;
     }
 
@@ -167,12 +167,12 @@ public class UserController implements Serializable {
         FacesMessageUtil.error();
     }
 
-    public void preUpdate(User user) {
+    public void preUpdate(Usuario user) {
         this.user = user;
         setRenderFormControl(true);
     }
 
-    public void preDestroy(User user) {
+    public void preDestroy(Usuario user) {
         setUser(user);
     }
 
@@ -209,18 +209,18 @@ public class UserController implements Serializable {
             case "User.USER_BY_NAME":
                 valorConsulta = valorConsulta.toLowerCase();
                 parametros.put("nome", "%" + valorConsulta + "%");
-                setUsers(userService.getResultListNamedQuery(User.USER_BY_NAME, parametros));
+                setUsers(userService.getResultListNamedQuery(Usuario.USER_BY_NAME, parametros));
                 break;
             case "User.USER_BY_CPF":
                 parametros.put("cpf", removeChar(valorConsulta));
-                setUsers(userService.getResultListNamedQuery(User.USER_BY_CPF, parametros));
+                setUsers(userService.getResultListNamedQuery(Usuario.USER_BY_CPF, parametros));
                 break;
             case "User.USER_BY_EMAIL":
                 parametros.put("email", valorConsulta);
-                setUsers(userService.getResultListNamedQuery(User.USER_BY_EMAIL, parametros));
+                setUsers(userService.getResultListNamedQuery(Usuario.USER_BY_EMAIL, parametros));
                 break;
             case "Todos":
-                setUsers(userService.getResultListNamedQuery(User.USERS_GET_ALL, null));
+                setUsers(userService.getResultListNamedQuery(Usuario.USERS_GET_ALL, null));
                 break;
             default:
                
@@ -234,7 +234,7 @@ public class UserController implements Serializable {
     public boolean cpfExits() throws Exception {
         Map<String, Object> parametros = new HashMap();
         parametros.put("cpf", user.getCpf());
-        return (!userService.getResultListNamedQuery(User.USER_BY_CPF, parametros).isEmpty());
+        return (!userService.getResultListNamedQuery(Usuario.USER_BY_CPF, parametros).isEmpty());
     }
 
     public boolean validaCPF() throws Exception {

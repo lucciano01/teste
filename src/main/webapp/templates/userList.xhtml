@@ -206,7 +206,7 @@
             <p:panel id="panelEndereco" header="Endereço" styleClass="panel-endereco">
                 <h:panelGrid columns="2" cellspacing="2"  cellpadding="10">
                     <p:outputLabel value="CEP" for="cep"/>
-                    <p:inputMask mask="99.999-999" requiredMessage="O CEP é obrigatório" required="true" value="#{userView.user.endereco.cep}" id="cep">
+                    <p:inputMask mask="99.999-999"  requiredMessage="O CEP é obrigatório" required="true" value="#{userView.user.endereco.cep}" id="cep">
                         <p:ajax event="blur" 
                                 listener="#{userView.buscaEndereco()}"
                                 process="cep"

@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="TesteFedex_PU" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>br.com.luciano.domain.User</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
-      <property name="javax.persistence.jdbc.user" value="sa"/>
-      <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-      <property name="javax.persistence.jdbc.password" value=""/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="TesteFedex_PU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>br.com.luciano.domain.Usuario</class>
+    
+        <!--conexao local-->
+        <properties>
+             <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>    
+        
+        <!--conexao servidor
+        <properties>
+                <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-34-198-243-120.compute-1.amazonaws.com:5432/df9b49p2eibrrg"/>
+                <property name="javax.persistence.jdbc.user" value="qgchhxpwhzfuii"/>
+                <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+                <property name="javax.persistence.jdbc.password" value="9c3911bc2de45dd916a5e694fc57217caa90d2c1304e98469439d789cc3652b0"/>
+                <property name="eclipselink.ddl-generation" value="create-tables" />
+                <property name="eclipselink.ddl-generation.output-mode" value="database" />
+        </properties>-->
+        
+    </persistence-unit>
 </persistence>

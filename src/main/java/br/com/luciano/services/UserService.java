@@ -6,7 +6,7 @@
 package br.com.luciano.services;
 
 
-import br.com.luciano.domain.User;
+import br.com.luciano.domain.Usuario;
 import br.com.luciano.generics.GenericService;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,31 +20,31 @@ import javax.inject.Named;
  * @author Luciano
  */
 @Named(value = "userService")
-public class UserService extends GenericService<User>{
+public class UserService extends GenericService<Usuario>{
 
     @Override
-    public void save(User entity) {
+    public void save(Usuario entity) {
        super.save(entity); 
     }
 
     @Override
-    public void update(User entity) {
+    public void update(Usuario entity) {
         super.update(entity); 
     }
     
     @Override
-    public void delete(User entity) {
+    public void delete(Usuario entity) {
         entity = findById(entity.getId());
         super.delete(entity); 
     }
     
-    public User findById(Long id){
-       return super.findById(User.class, id);
+    public Usuario findById(Long id){
+       return super.findById(Usuario.class, id);
     }
     
-    public List<User> getAll(){
+    public List<Usuario> getAll(){
         try {
-            return getResultListNamedQuery(User.USERS_GET_ALL, null);
+            return getResultListNamedQuery(Usuario.USERS_GET_ALL, null);
         } catch (Exception ex) {
             Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,12 +53,12 @@ public class UserService extends GenericService<User>{
     
      
     @Override
-    public User getSingleResultNamedQuery(String query, Map<String, Object> parametros) {
+    public Usuario getSingleResultNamedQuery(String query, Map<String, Object> parametros) {
         return super.getSingleResultNamedQuery(query, parametros); 
     }
 
     @Override
-    public List<User> getResultListNamedQuery(String query, Map<String, Object> parametros) throws Exception {
+    public List<Usuario> getResultListNamedQuery(String query, Map<String, Object> parametros) throws Exception {
         return super.getResultListNamedQuery(query, parametros); 
     }
     

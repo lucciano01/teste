@@ -5,20 +5,18 @@
  */
 package br.com.luciano.domain;
 
-import br.com.luciano.enums.Gender;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
@@ -29,13 +27,14 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = User.USERS_GET_ALL, query = "select u from User u order by u.name"),
-@NamedQuery(name = User.USER_BY_NAME, query = "select u from User u where lower(u.name) like :nome"),
-@NamedQuery(name = User.USER_BY_CPF, query = "select u from User u where u.cpf = :cpf"),
-@NamedQuery(name = User.USER_BY_EMAIL, query = "select u from User u where u.email = :email")
+@NamedQuery(name = Usuario.USERS_GET_ALL, query = "select u from Usuario u order by u.name"),
+@NamedQuery(name = Usuario.USER_BY_NAME, query = "select u from Usuario u where lower(u.name) like :nome"),
+@NamedQuery(name = Usuario.USER_BY_CPF, query = "select u from Usuario u where u.cpf = :cpf"),
+@NamedQuery(name = Usuario.USER_BY_EMAIL, query = "select u from Usuario u where u.email = :email")
     
 })
-public class User implements Serializable {
+@Table(name = "usuario")
+public class Usuario implements Serializable {
     
     public static final String USERS_GET_ALL = "users.getAll";
     public static final String USER_BY_NAME = "user.ByName";
@@ -68,10 +67,10 @@ public class User implements Serializable {
     @Embedded
     private Endereco endereco;
 
-    public User() {
+    public Usuario() {
     }
 
-    public User(String email) {
+    public Usuario(String email) {
         this.email = email;
     }
     
@@ -178,7 +177,7 @@ public class User implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final User other = (User) obj;
+        final Usuario other = (Usuario) obj;
         if (!Objects.equals(this.name, other.name)) {
             return false;
         }

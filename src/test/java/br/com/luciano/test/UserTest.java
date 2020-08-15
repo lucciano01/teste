@@ -6,7 +6,7 @@
 package br.com.luciano.test;
 
 
-import br.com.luciano.domain.User;
+import br.com.luciano.domain.Usuario;
 import br.com.luciano.services.CpfService;
 import br.com.luciano.services.UserService;
 import br.com.luciano.validations.EmailValidator;
@@ -23,14 +23,14 @@ import org.mockito.Mockito;
 
 public class UserTest {
     
-    private User user;
+    private Usuario user;
   
     private UserService userService;
       
     
     @Before
     public void setUp(){
-        user = new User();
+        user = new Usuario();
           
     }
     
