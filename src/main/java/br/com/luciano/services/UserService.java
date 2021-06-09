@@ -61,6 +61,6 @@ public class UserService extends GenericService<Usuario>{
     public List<Usuario> getResultListNamedQuery(String query, Map<String, Object> parametros) throws Exception {
         return super.getResultListNamedQuery(query, parametros); 
     }
-    
+    console.log("Erro")
   
 }
